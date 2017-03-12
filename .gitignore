@@ -49,4 +49,5 @@ Temporary Items
 #security
 wlanconfig.h
 
-coocox_wtherm_st32f030
+coocox_wtherm_st32f030/
+wlanconf.h
