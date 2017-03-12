@@ -5,7 +5,7 @@ import pycurl,json,datetime,math,time
 from io import BytesIO
 
 # this string should be configured according to your ESP-01 config
-thermaddr = "http://192.168.1.180:5577"
+thermaddr = "http://station.ip:port"
 curlstring = 'http://api.openweathermap.org/data/2.5/forecast?id=YOURCITYID&units=metric&appid=YOURAPPID'
 
 running = True
