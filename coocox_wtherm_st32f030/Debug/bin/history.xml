@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<history>
+   <processor signature="4.9.3 -mcpu=cortex-m0 -mthumb -g -nostartfiles -Map=coocox_wtherm_st32f030.map -Os --gc-sections -LD:\CooCox\coide17\configuration\ProgramData\coocox_wtherm_st32f030 -TD:\CooCox\coide17\configuration\ProgramData\coocox_wtherm_st32f030/arm-gcc-link.ld -g">
+      <target file="coocox_wtherm_st32f030.elf" lastModified="15ac2fc9746">
+         <source file="..\obj\pcd8544.o" lastModified="15ac2faa764"/>
+         <source file="..\obj\delay.o" lastModified="15ac2faa7a6"/>
+         <source file="..\obj\stm32f0xx_rcc.o" lastModified="15ac2faa84a"/>
+         <source file="..\obj\soft1w.o" lastModified="15ac2faa89f"/>
+         <source file="..\obj\bmp180.o" lastModified="15ac2faa913"/>
+         <source file="..\obj\main.o" lastModified="15ac2fc9572"/>
+         <source file="..\obj\startup_stm32f0xx.o" lastModified="15ac2faab7d"/>
+         <source file="..\obj\stm32f0xx_spi.o" lastModified="15ac2faac0d"/>
+         <source file="..\obj\stm32f0xx_i2c.o" lastModified="15ac2faacad"/>
+         <source file="..\obj\system_stm32f0xx_temp.o" lastModified="15ac2faacf9"/>
+         <source file="..\obj\stm32f0xx_gpio.o" lastModified="15ac2faad55"/>
+         <source file="..\obj\stm32f0xx_usart.o" lastModified="15ac2faae0a"/>
+         <source file="..\obj\stm32f0xx_tim.o" lastModified="15ac2faaf40"/>
+         <source file="..\obj\stm32f0xx_misc.o" lastModified="15ac2faaf83"/>
+      </target>
+   </processor>
+</history>
