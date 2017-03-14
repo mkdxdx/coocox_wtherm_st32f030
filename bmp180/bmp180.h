@@ -4,8 +4,7 @@
 #define BMP_I2C			I2C1
 #define BMPI2C_Port		GPIOA
 #define BMPI2C_PortRCC 	RCC_AHBPeriph_GPIOA
-#define BMPI2C_RCC		RCC_APB1Periph_I2C1
-
+#define BMPI2C_RCC	RCC_APB1Periph_I2C1
 
 #define BMP180_A_RD 			0xEF
 #define BMP180_A_WR 			0xEE
@@ -36,7 +35,7 @@
 #define pow2_11					2048
 
 
-//
+//initializes interface
 void Bmp180InitI2C(void);
 
 // Reads REGADDR register from a sensor

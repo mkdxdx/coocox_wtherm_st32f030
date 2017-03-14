@@ -13,6 +13,7 @@
 #include <stm32f0xx_usart.h>
 #include <stm32f0xx_misc.h>
 #include <stm32f0xx_tim.h>
+#include <stm32f0xx_i2c.h>
 #include <stdlib.h>
 #include <delay.h>
 #include <stdint.h>
@@ -34,6 +35,15 @@
 #define ESP_PORT		GPIOA
 #define ESP_RST			GPIO_Pin_6
 #define	ESP_GPIO_CLK	RCC_AHBPeriph_GPIOA
+
+#define I2C_If			I2C1
+#define I2C_IfPort		GPIOA
+#define I2C_IfPortRCC 	RCC_AHBPeriph_GPIOA
+#define I2C_IfRCC		RCC_APB1Periph_I2C1
+#define I2C_Pin_SCL		GPIO_Pin_9
+#define I2C_Pin_SDA		GPIO_Pin_10
+#define I2C_PS_SCL		GPIO_PinSource9
+#define I2C_PS_SDA		GPIO_PinSource10
 
 #define rxarray_len 250
 
@@ -65,6 +75,7 @@
 #define ESP_MAX_ATTEMPTS	5
 
 #define WLAN_CHECK_COUNT	9
+#define FCAST_SAVE_TICKS	10
 
 
 //GLOBAL CONSTS INTO PROGMEM
@@ -160,6 +171,7 @@ volatile char rxbuf[rxarray_len];
 volatile uint16_t rxbuf_index;
 volatile char vals[5];
 volatile uint8_t wlan_check = 0;
+volatile uint8_t fcast_save = 0;
 
 // sensor data:
 volatile int8_t         c_interior_temp = 22;
@@ -209,6 +221,8 @@ void COMMInit(void);
 void TIM_ResetStart(void);
 void TIM_Stop(void);
 void ITInit(void);
+void Forecast_Save(void);
+void Forecast_Load(void);
 
 void USART1_IRQHandler(void) {
 	if (USART_GetITStatus(USART1,USART_IT_RXNE)!=RESET) {
@@ -252,19 +266,15 @@ int main(void)
 	// set up sensors
 	SensorInit();
 
+
+
 	// set up display data
 	Display_Init();
 	Display_Clear();
-	Display_SetXY(0,2);
-	Display_PutS(s_start);
+	Display_SetXY(0,0);
 
-	uint16_t i;
-	for (i = 0; i<FCAST_T_LENGTH; i++) {
-		fcastt[i].date = i+1;
-		fcastt[i].temp_day = 0;
-		fcastt[i].temp_night = 0;
-		fcastt[i].sky = 0;
-	}
+	Display_PutS(s_start);
+	Forecast_Load();
 
 	ClrBuffer();
 	ITInit();
@@ -294,16 +304,25 @@ int main(void)
     		CONNSTATUS = ESPCheckConnection();
     	}
 
+    	fcast_save++;
+    	if (fcast_save>FCAST_SAVE_TICKS) {
+    		fcast_save = 0;
+    		Forecast_Save();
+    	}
+
+
     	// draw stuff onto screen
     	if (DISPLAY_MODE == DM_FORECAST)
     		Delay_s(7);
     	else
     		Delay_s(2);
     }
+
+
 }
 
 void SensorInit() {
-	Bmp180InitI2C();
+	I2CInit();
 	Bmp180Calibrate();
 	OW_SetBus();
 }
@@ -357,6 +376,7 @@ void PollCmd() {
 				c_wind_spd = *p++;
 				c_wind_dir[0] = *p++;
 				c_wind_dir[1] = *p;
+
 			}
 			ClrBuffer();
 			CMD_MODE = CM_IDLE;
@@ -724,4 +744,66 @@ void Delay_s(uint8_t s) {
 		delay_ms(1000);
 		s--;
 	}
+}
+
+void Forecast_Load(void) {
+	uint8_t rdaddr = 0;
+	uint8_t fci = 0;
+	while (rdaddr<FCAST_T_LENGTH*5) {
+		fcastt[fci].date = EE_I2C_ReadAt(rdaddr);
+		rdaddr++;
+		fcastt[fci].temp_day = (int8_t)EE_I2C_ReadAt(rdaddr);
+		rdaddr++;
+		fcastt[fci].temp_night = (int8_t)EE_I2C_ReadAt(rdaddr);
+		rdaddr++;
+		fcastt[fci].sky = EE_I2C_ReadAt(rdaddr);
+		rdaddr++;
+		fcastt[fci].humidity  = EE_I2C_ReadAt(rdaddr);
+		rdaddr++;
+		fci++;
+	}
+}
+
+void Forecast_Save(void) {
+	// start writing procedure and hope for the best
+	uint8_t index;
+	uint8_t wraddr = 0;
+	for (index = 0; index<FCAST_T_LENGTH; index++) {
+		EE_I2C_WriteAt(wraddr,fcastt[index].date);
+		wraddr++;
+		EE_I2C_WriteAt(wraddr,(uint8_t)fcastt[index].temp_day);
+		wraddr++;
+		EE_I2C_WriteAt(wraddr,(uint8_t)fcastt[index].temp_night);
+		wraddr++;
+		EE_I2C_WriteAt(wraddr,fcastt[index].sky);
+		wraddr++;
+		EE_I2C_WriteAt(wraddr,fcastt[index].humidity);
+		wraddr++;
+	}
+}
+
+void I2CInit(void) {
+
+	RCC_APB1PeriphClockCmd(I2C_IfRCC,ENABLE);
+
+	GPIO_InitTypeDef gis;
+	gis.GPIO_Pin = I2C_Pin_SCL | I2C_Pin_SDA;
+	gis.GPIO_Speed = GPIO_Speed_50MHz;
+	gis.GPIO_Mode = GPIO_Mode_AF;
+	gis.GPIO_OType = GPIO_OType_OD;
+	gis.GPIO_PuPd = GPIO_PuPd_UP;
+	GPIO_Init(I2C_IfPort, &gis);
+
+	GPIO_PinAFConfig(I2C_IfPort,I2C_PS_SCL, GPIO_AF_4);
+	GPIO_PinAFConfig(I2C_IfPort,I2C_PS_SDA, GPIO_AF_4);
+
+	I2C_InitTypeDef i2cis;
+	i2cis.I2C_Mode = I2C_Mode_I2C;
+	i2cis.I2C_Ack = I2C_Ack_Disable;
+	//i2cis.I2C_Timing = 0x00901A53;
+	i2cis.I2C_Timing = 0x20303E5D;
+	i2cis.I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit;
+	I2C_Init(I2C_If,&i2cis);
+
+	I2C_Cmd(I2C_If,ENABLE);
 }
