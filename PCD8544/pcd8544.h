@@ -15,7 +15,7 @@
 #define CMD_FUNCSET			(uint8_t)0b00100000
 #define CMD_EXTENDED		(uint8_t)0b00100001
 #define CMD_CONF_BLANK		(uint8_t)0b00001000
-#define	CMD_CONF_NORMAL		(uint8_t)0b00000000
+#define	CMD_CONF_NORMAL		(uint8_t)0b00001100
 #define CMD_CONF_ALLON		(uint8_t)0b00001001
 #define CMD_CONF_INVERSE	(uint8_t)0b00001101
 #define CMD_SETX			(uint8_t)0b10000000

@@ -230,7 +230,7 @@ void Display_Init(void)
 	// send some init commands
 	DDC_LO;
 
-	Display_Tx((uint8_t)0b00100001);
+	Display_Tx(CMD_EXTENDED);
 	// set VOP
 	Display_Tx((uint8_t)0xB9);
 	// set TCx
@@ -239,13 +239,14 @@ void Display_Init(void)
 	Display_Tx((uint8_t)0b00010100);
 	
 	// set normal instruction set
-	Display_Tx((uint8_t)0b00100000);
+	Display_Tx(CMD_FUNCSET);
 	
 	// set normal mode
-	Display_Tx((uint8_t)0b00001100);
+	Display_Tx(CMD_CONF_NORMAL);
 
 
 }
+
 
 void Display_Reset(void) {
 	DRST_LO;
@@ -281,18 +282,18 @@ void Display_TxF(uint8_t byte) {
 }
 
 void Display_PutChar(char c)
-	{
-		if (c > 0) {
-			uint8_t i;
-			if (c>=0x61)
-				c -= 32;
+{
+	if (c > 0) {
+		uint8_t i;
+		if (c>=0x61)
+			c -= 32;
 
-			c -= (char)' ';
-			uint16_t start = c*FONT_CHAR_WIDTH;
-			for (i = 0; i<FONT_CHAR_WIDTH; i++)
-				Display_SendData(font[start+i]);
-		}
+		c -= (char)' ';
+		uint16_t start = c*FONT_CHAR_WIDTH;
+		for (i = 0; i<FONT_CHAR_WIDTH; i++)
+			Display_SendData(font[start+i]);
 	}
+}
 
 
 
@@ -317,6 +318,7 @@ void Display_PutS(const char *s)
 		s++;
 	}
 }
+
 
 void Display_Put(uint8_t data) {
 	Display_SendData(data);
@@ -360,6 +362,7 @@ void Display_Clear(void)
 			Display_SendData(0);
 	Display_SetXY(0,0);
 }
+
 
 #ifdef BUFFERED
 void Display_Swap(void) {

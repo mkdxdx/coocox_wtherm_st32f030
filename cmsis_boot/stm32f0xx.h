@@ -3238,7 +3238,7 @@ typedef struct
   */ 
 
 //#ifdef USE_STDPERIPH_DRIVER
-//  #include "stm32f0xx_conf.h"
+#include "stm32f0xx_conf.h"
 //#endif
 
 

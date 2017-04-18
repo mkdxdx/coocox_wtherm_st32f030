@@ -47,7 +47,5 @@ Temporary Items
 .apdisk
 
 #security
-wlanconfig.h
-
 coocox_wtherm_st32f030/
-wlanconf.h
+confstr.h
