@@ -88,8 +88,8 @@
   <Files>
     <File name="cmsis_boot/delay/delay.c" path="delay/delay.c" type="1"/>
     <File name="stm32_lib/inc/stm32f0xx_i2c.h" path="stm32_lib/inc/stm32f0xx_i2c.h" type="1"/>
-    <File name="cmsis_core/core_cmInstr.h" path="cmsis_core/core_cmInstr.h" type="1"/>
     <File name="ds18b20/soft1w.c" path="ds18b20/soft1w.c" type="1"/>
+    <File name="cmsis_core/core_cmInstr.h" path="cmsis_core/core_cmInstr.h" type="1"/>
     <File name="bmp180" path="" type="2"/>
     <File name="cmsis_boot/system_stm32f0xx_temp.c" path="cmsis_boot/system_stm32f0xx_temp.c" type="1"/>
     <File name="cmsis_boot" path="" type="2"/>
@@ -110,16 +110,16 @@
     <File name="PCD8544/icons.c" path="icons.c" type="1"/>
     <File name="cmsis_boot/delay" path="" type="2"/>
     <File name="stm32_lib/inc/stm32f0xx_misc.h" path="stm32_lib/inc/stm32f0xx_misc.h" type="1"/>
-    <File name="jsontrie.h" path="jsontrie.h" type="1"/>
     <File name="PCD8544" path="" type="2"/>
+    <File name="jsontrie.h" path="jsontrie.h" type="1"/>
     <File name="stm32_lib/src/stm32f0xx_tim.c" path="stm32_lib/src/stm32f0xx_tim.c" type="1"/>
     <File name="stm32_lib/src/stm32f0xx_rcc.c" path="stm32_lib/src/stm32f0xx_rcc.c" type="1"/>
     <File name="eeprom/eeprom.h" path="eeprom/eeprom.h" type="1"/>
     <File name="stm32_lib/src/stm32f0xx_i2c.c" path="stm32_lib/src/stm32f0xx_i2c.c" type="1"/>
     <File name="stm32_lib/src/stm32f0xx_usart.c" path="stm32_lib/src/stm32f0xx_usart.c" type="1"/>
     <File name="bmp180/bmp180.h" path="bmp180/bmp180.h" type="1"/>
-    <File name="cmsis_boot/startup/startup_stm32f0xx.s" path="cmsis_boot/startup/startup_stm32f0xx.s" type="1"/>
     <File name="cmsis_boot/stm32f0xx_conf.h" path="cmsis_boot/stm32f0xx_conf.h" type="1"/>
+    <File name="cmsis_boot/startup/startup_stm32f0xx.s" path="cmsis_boot/startup/startup_stm32f0xx.s" type="1"/>
     <File name="eeprom/eeprom.c" path="eeprom/eeprom.c" type="1"/>
     <File name="cmsis_core/core_cmFunc.h" path="cmsis_core/core_cmFunc.h" type="1"/>
     <File name="stm32_lib" path="" type="2"/>
@@ -132,8 +132,8 @@
     <File name="stm32_lib/src/stm32f0xx_gpio.c" path="stm32_lib/src/stm32f0xx_gpio.c" type="1"/>
     <File name="PCD8544/pcd8544.c" path="PCD8544/pcd8544.c" type="1"/>
     <File name="stm32_lib/src/stm32f0xx_misc.c" path="stm32_lib/src/stm32f0xx_misc.c" type="1"/>
-    <File name="main.c" path="main.c" type="1"/>
     <File name="stm32_lib/src" path="" type="2"/>
+    <File name="main.c" path="main.c" type="1"/>
     <File name="eeprom" path="" type="2"/>
   </Files>
 </Project>

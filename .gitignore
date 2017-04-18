@@ -49,3 +49,8 @@ Temporary Items
 #security
 coocox_wtherm_st32f030/
 confstr.h
+
+# misc
+*.cogui
+coocox_wtherm_st32f030.cogui
+*.cogui
