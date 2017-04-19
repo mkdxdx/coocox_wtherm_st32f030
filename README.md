@@ -6,7 +6,7 @@ You will also need to provide wireless AP connection credentials for unit to con
 Executable needs no less than 16k of memory on the controller (-Os option) and ~2k of RAM.
 This is my first srs project on STM32 and that uses ESP-01.
 
-inb4 "ESP-01 can do everything on its own": yes it can.
+inb4 "ESP-01 can do everything on its own": yes it can, but for sake of platform experience it is used solely as connectivity backend.
 
 To-do:
  - polish code
