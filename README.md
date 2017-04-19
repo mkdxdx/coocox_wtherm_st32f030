@@ -8,5 +8,7 @@ This is my first srs project on STM32 and that uses ESP-01.
 
 inb4 "ESP-01 can do everything on its own": yes it can, but for sake of platform experience it is used solely as connectivity backend.
 
+My unit looks like this https://www.youtube.com/watch?v=Yb-zeCcHZfE
+
 To-do:
  - polish code
